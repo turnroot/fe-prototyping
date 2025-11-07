@@ -36,67 +36,26 @@ public class UnitTerrainType : SkillNode
     [Output]
     BoolValue Stairs;
 
+    private static readonly System.Collections.Generic.Dictionary<string, System.Func<BoolValue>> terrainTypeFactories =
+        new System.Collections.Generic.Dictionary<string, System.Func<BoolValue>>()
+        {
+            { "Ground", () => { var v = new BoolValue(); /* TODO: Implement runtime retrieval of terrain type */ return v; } },
+            { "ShallowWater", () => { var v = new BoolValue(); /* TODO: Implement runtime retrieval of terrain type */ return v; } },
+            { "DeepWater", () => { var v = new BoolValue(); /* TODO: Implement runtime retrieval of terrain type */ return v; } },
+            { "Sand", () => { var v = new BoolValue(); /* TODO: Implement runtime retrieval of terrain type */ return v; } },
+            { "Snow", () => { var v = new BoolValue(); /* TODO: Implement runtime retrieval of terrain type */ return v; } },
+            { "Forest", () => { var v = new BoolValue(); /* TODO: Implement runtime retrieval of terrain type */ return v; } },
+            { "Bushes", () => { var v = new BoolValue(); /* TODO: Implement runtime retrieval of terrain type */ return v; } },
+            { "Lava", () => { var v = new BoolValue(); /* TODO: Implement runtime retrieval of terrain type */ return v; } },
+            { "Bridge", () => { var v = new BoolValue(); /* TODO: Implement runtime retrieval of terrain type */ return v; } },
+            { "Stairs", () => { var v = new BoolValue(); /* TODO: Implement runtime retrieval of terrain type */ return v; } },
+        };
+
     public override object GetValue(NodePort port)
     {
-        if (port.fieldName == "Ground")
+        if (terrainTypeFactories.TryGetValue(port.fieldName, out var factory))
         {
-            BoolValue ground = new();
-            // TODO: Implement runtime retrieval of terrain type
-            return ground;
-        }
-        else if (port.fieldName == "ShallowWater")
-        {
-            BoolValue shallowWater = new();
-            // TODO: Implement runtime retrieval of terrain type
-            return shallowWater;
-        }
-        else if (port.fieldName == "DeepWater")
-        {
-            BoolValue deepWater = new();
-            // TODO: Implement runtime retrieval of terrain type
-            return deepWater;
-        }
-        else if (port.fieldName == "Sand")
-        {
-            BoolValue sand = new();
-            // TODO: Implement runtime retrieval of terrain type
-            return sand;
-        }
-        else if (port.fieldName == "Snow")
-        {
-            BoolValue snow = new();
-            // TODO: Implement runtime retrieval of terrain type
-            return snow;
-        }
-        else if (port.fieldName == "Forest")
-        {
-            BoolValue forest = new();
-            // TODO: Implement runtime retrieval of terrain type
-            return forest;
-        }
-        else if (port.fieldName == "Bushes")
-        {
-            BoolValue bushes = new();
-            // TODO: Implement runtime retrieval of terrain type
-            return bushes;
-        }
-        else if (port.fieldName == "Lava")
-        {
-            BoolValue lava = new();
-            // TODO: Implement runtime retrieval of terrain type
-            return lava;
-        }
-        else if (port.fieldName == "Bridge")
-        {
-            BoolValue bridge = new();
-            // TODO: Implement runtime retrieval of terrain type
-            return bridge;
-        }
-        else if (port.fieldName == "Stairs")
-        {
-            BoolValue stairs = new();
-            // TODO: Implement runtime retrieval of terrain type
-            return stairs;
+            return factory();
         }
         return null;
     }
