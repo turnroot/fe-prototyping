@@ -7,34 +7,34 @@ using XNode;
 public class WeaponType : SkillNode
 {
     [Output]
-    StringValue TypeName;
+    public StringValue TypeName;
 
     [Output]
-    BoolValue IsSword;
+    public BoolValue IsSword;
 
     [Output]
-    BoolValue IsLance;
+    public BoolValue IsLance;
 
     [Output]
-    BoolValue IsAxe;
+    public BoolValue IsAxe;
 
     [Output]
-    BoolValue IsBow;
+    public BoolValue IsBow;
 
     [Output]
-    BoolValue IsTome;
+    public BoolValue IsTome;
 
     [Output]
-    BoolValue IsStaff;
+    public BoolValue IsStaff;
 
     [Output]
-    BoolValue IsDagger;
+    public BoolValue IsDagger;
 
     [Output]
-    BoolValue IsDragonstone;
+    public BoolValue IsDragonstone;
 
     [Output]
-    BoolValue IsBeaststone;
+    public BoolValue IsBeaststone;
 
     public override object GetValue(NodePort port)
     {

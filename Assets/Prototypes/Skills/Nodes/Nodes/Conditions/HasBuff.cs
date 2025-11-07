@@ -7,13 +7,13 @@ using XNode;
 public class HasBuff : SkillNode
 {
     [Output]
-    BoolValue UnitHasBuff;
+    public BoolValue UnitHasBuff;
 
     [Output]
-    BoolValue EnemyHasBuff;
+    public BoolValue EnemyHasBuff;
 
     [Output]
-    BoolValue AllyHasBuff;
+    public BoolValue AllyHasBuff;
 
     [Tooltip("Specific buff type to check (leave empty to check for any buff)")]
     public string buffType = "";

@@ -7,10 +7,10 @@ using XNode;
 public class TurnsAlive : SkillNode
 {
     [Output]
-    FloatValue TurnCount;
+    public FloatValue TurnCount;
 
     [Output]
-    BoolValue FirstTurn;
+    public BoolValue FirstTurn;
 
     public override object GetValue(NodePort port)
     {
