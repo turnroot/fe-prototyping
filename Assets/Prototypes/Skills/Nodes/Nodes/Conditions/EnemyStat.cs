@@ -44,15 +44,7 @@ public class EnemyStat : SkillNode
             FloatValue statValue = new();
 
             // In editor mode, return the test value
-            if (!Application.isPlaying)
-            {
-                statValue.value = test;
-            }
-            else
-            {
-                // At runtime, get actual stat from the UnitInstance
-                statValue.value = GetRuntimeStatValue();
-            }
+            statValue.value = !Application.isPlaying ? test : GetRuntimeStatValue();
 
             return statValue;
         }
