@@ -60,7 +60,7 @@ public static class DefaultCharacterStatsRefresher
             requiredBoundedStats.Add(BoundedStatType.ClassExperience);
 
         // Get existing bounded stats
-        var existingBoundedStats = new List<BoundedStatType>();
+        var existingBoundedStats = new HashSet<BoundedStatType>();
         for (int i = 0; i < boundedStatsProperty.arraySize; i++)
         {
             var element = boundedStatsProperty.GetArrayElementAtIndex(i);
@@ -129,7 +129,7 @@ public static class DefaultCharacterStatsRefresher
             requiredUnboundedStats.Add(UnboundedStatType.Authority);
 
         // Get existing stats
-        var existingUnboundedStats = new List<UnboundedStatType>();
+        var existingUnboundedStats = new HashSet<UnboundedStatType>();
         for (int i = 0; i < unboundedStatsProperty.arraySize; i++)
         {
             var element = unboundedStatsProperty.GetArrayElementAtIndex(i);
