@@ -60,37 +60,26 @@ public class EnemyStat : SkillNode
             else
             {
                 // At runtime, get actual stat max from the first enemy
-                if (graph is SkillGraph skillGraph)
+                if (
+                    graph is SkillGraph skillGraph &&
+                    GetContextFromGraph(skillGraph) is var contextFromGraph &&
+                    contextFromGraph != null &&
+                    contextFromGraph.Targets != null &&
+                    contextFromGraph.Targets.Count > 0 &&
+                    contextFromGraph.Targets[0] is var characterInstance &&
+                    characterInstance != null &&
+                    isBoundedStat &&
+                    System.Enum.TryParse<BoundedStatType>(
+                        selectedStat,
+                        out var boundedType
+                    )
+                )
                 {
-                    var contextFromGraph = GetContextFromGraph(skillGraph);
-                    if (contextFromGraph != null && contextFromGraph.Targets != null)
+                    var stat = characterInstance.GetBoundedStat(boundedType);
+                    if (stat != null)
                     {
-                        var enemyInstances = contextFromGraph.Targets;
-                        if (enemyInstances != null && enemyInstances.Count > 0)
-                        {
-                            var characterInstance = enemyInstances[0];
-                            if (characterInstance != null)
-                            {
-                                if (isBoundedStat)
-                                {
-                                    // Try to parse as BoundedStatType
-                                    if (
-                                        System.Enum.TryParse<BoundedStatType>(
-                                            selectedStat,
-                                            out var boundedType
-                                        )
-                                    )
-                                    {
-                                        var stat = characterInstance.GetBoundedStat(boundedType);
-                                        if (stat != null)
-                                        {
-                                            statMaxValue.value = stat.Max;
-                                            return statMaxValue;
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        statMaxValue.value = stat.Max;
+                        return statMaxValue;
                     }
                 }
 
