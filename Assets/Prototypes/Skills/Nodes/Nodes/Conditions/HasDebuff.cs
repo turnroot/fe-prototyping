@@ -7,13 +7,13 @@ using XNode;
 public class HasDebuff : SkillNode
 {
     [Output]
-    BoolValue UnitHasDebuff;
+    public BoolValue UnitHasDebuff;
 
     [Output]
-    BoolValue EnemyHasDebuff;
+    public BoolValue EnemyHasDebuff;
 
     [Output]
-    BoolValue AllyHasDebuff;
+    public BoolValue AllyHasDebuff;
 
     [Tooltip("Specific debuff type to check (leave empty to check for any debuff)")]
     public string debuffType = "";

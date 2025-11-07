@@ -7,22 +7,22 @@ using XNode;
 public class WeaponDurability : SkillNode
 {
     [Output]
-    FloatValue CurrentUses;
+    public FloatValue CurrentUses;
 
     [Output]
-    FloatValue MaxUses;
+    public FloatValue MaxUses;
 
     [Output]
-    FloatValue UsesRemaining;
+    public FloatValue UsesRemaining;
 
     [Output]
-    FloatValue PercentRemaining;
+    public FloatValue PercentRemaining;
 
     [Output]
-    BoolValue IsBroken;
+    public BoolValue IsBroken;
 
     [Output]
-    BoolValue IsLowDurability;
+    public BoolValue IsLowDurability;
 
     [Tooltip("Threshold for low durability warning (percentage)")]
     [Range(0, 100)]

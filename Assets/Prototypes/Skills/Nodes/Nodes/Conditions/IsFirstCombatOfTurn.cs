@@ -7,7 +7,7 @@ using XNode;
 public class IsFirstCombatOfTurn : SkillNode
 {
     [Output]
-    BoolValue IsFirstCombat;
+    public BoolValue IsFirstCombat;
 
     public override object GetValue(NodePort port)
     {

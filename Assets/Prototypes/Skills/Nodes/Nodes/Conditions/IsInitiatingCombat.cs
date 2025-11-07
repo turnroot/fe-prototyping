@@ -7,7 +7,7 @@ using XNode;
 public class IsInitiatingCombat : SkillNode
 {
     [Output]
-    BoolValue UnitInitiating;
+    public BoolValue UnitInitiating;
 
     public override object GetValue(NodePort port)
     {

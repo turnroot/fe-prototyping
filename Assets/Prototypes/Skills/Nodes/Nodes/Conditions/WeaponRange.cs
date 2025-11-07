@@ -7,19 +7,19 @@ using XNode;
 public class WeaponRange : SkillNode
 {
     [Output]
-    FloatValue MinRange;
+    public FloatValue MinRange;
 
     [Output]
-    FloatValue MaxRange;
+    public FloatValue MaxRange;
 
     [Output]
-    BoolValue IsMelee;
+    public BoolValue IsMelee;
 
     [Output]
-    BoolValue IsRanged;
+    public BoolValue IsRanged;
 
     [Output]
-    BoolValue CanCounterattack;
+    public BoolValue CanCounterattack;
 
     public override object GetValue(NodePort port)
     {

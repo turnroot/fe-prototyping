@@ -7,25 +7,25 @@ using XNode;
 public class EnemyClass : SkillNode
 {
     [Output]
-    StringValue ClassName;
+    public StringValue ClassName;
 
     [Output]
-    BoolValue IsInfantry;
+    public BoolValue IsInfantry;
 
     [Output]
-    BoolValue IsCavalry;
+    public BoolValue IsCavalry;
 
     [Output]
-    BoolValue IsFlying;
+    public BoolValue IsFlying;
 
     [Output]
-    BoolValue IsArmored;
+    public BoolValue IsArmored;
 
     [Output]
-    BoolValue IsDragon;
+    public BoolValue IsDragon;
 
     [Output]
-    BoolValue IsBeast;
+    public BoolValue IsBeast;
 
     public override object GetValue(NodePort port)
     {
