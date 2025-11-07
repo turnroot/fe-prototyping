@@ -171,7 +171,7 @@ namespace Assets.Prototypes.Skills.Nodes.Editor
         private class SerializableTypeColorDict
         {
             public List<string> keys = new List<string>();
-            public List<Color> values = new List<Color>();
+            public readonly List<Color> values = new List<Color>();
 
             public SerializableTypeColorDict(
                 System.Collections.Generic.Dictionary<string, Color> dict
