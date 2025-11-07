@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Assets.Prototypes.Characters;
+using Assets.Prototypes.Gameplay.Combat.FundamentalComponents.Battles.Environment;
 using UnityEngine;
 
 namespace Assets.Prototypes.Skills.Nodes
@@ -14,7 +15,7 @@ namespace Assets.Prototypes.Skills.Nodes
         public CharacterInstance UnitInstance { get; set; }
         public List<CharacterInstance> Targets { get; set; }
         public SkillGraph SkillGraph { get; set; }
-        public EnvironmentalConditions EnvironmentalConditions { get; set; }
+        public EnvironmentalConditionsInstance EnvironmentalConditions { get; set; }
         public Dictionary<string, object> CustomData { get; private set; }
 
         public bool IsInterrupted { get; set; }

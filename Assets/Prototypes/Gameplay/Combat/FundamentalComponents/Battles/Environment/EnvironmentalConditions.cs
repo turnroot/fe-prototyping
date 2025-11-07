@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "EnvironmentalConditions",
-    menuName = "Gameplay/Combat/Environmental Conditions"
+    menuName = "Turnroot/Gameplay/Combat/Environmental Conditions"
 )]
 public class EnvironmentalConditions : ScriptableObject
 {

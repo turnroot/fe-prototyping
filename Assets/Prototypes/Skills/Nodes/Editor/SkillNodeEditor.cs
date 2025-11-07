@@ -39,12 +39,29 @@ namespace Assets.Prototypes.Skills.Nodes.Editor
 
         public override Color GetTint()
         {
-            // Get the script path for this node type
-            var script = MonoScript.FromScriptableObject(target);
-
-            if (script != null)
+            // Try to get colors from settings asset first
+            var settings = SkillGraphEditorSettings.Instance;
+            if (settings != null)
             {
-                string scriptPath = AssetDatabase.GetAssetPath(script);
+                var script = MonoScript.FromScriptableObject(target);
+                if (script != null)
+                {
+                    string scriptPath = AssetDatabase.GetAssetPath(script);
+                    Color color = settings.GetColorForNodeCategory(scriptPath);
+
+                    // Return the color from settings (bypassing fallback to NodeCategoryAttribute)
+                    if (color != Color.gray)
+                    {
+                        return color;
+                    }
+                }
+            }
+
+            // Fall back to NodeCategoryAttribute if no settings
+            var script2 = MonoScript.FromScriptableObject(target);
+            if (script2 != null)
+            {
+                string scriptPath = AssetDatabase.GetAssetPath(script2);
 
                 // Check if the path contains a category subfolder
                 if (scriptPath.Contains("/Flow/"))
@@ -64,6 +81,7 @@ namespace Assets.Prototypes.Skills.Nodes.Editor
                     return NodeCategoryAttribute.GetCategoryColor(NodeCategory.Conditions);
                 }
             }
+
             // Fall back to default tint
             return base.GetTint();
         }
