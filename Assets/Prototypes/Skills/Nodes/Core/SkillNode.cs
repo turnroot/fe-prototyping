@@ -23,7 +23,7 @@ namespace Assets.Prototypes.Skills.Nodes
         /// <summary>
         /// Retrieves the current execution context from the given SkillGraph instance.
         /// </summary>
-        protected SkillExecutionContext GetContextFromGraph(SkillGraph skillGraph)
+        public SkillExecutionContext GetContextFromGraph(SkillGraph skillGraph)
         {
             // Use reflection to access the private activeExecutor field
             var executorField = typeof(SkillGraph).GetField(

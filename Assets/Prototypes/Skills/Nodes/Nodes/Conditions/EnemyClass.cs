@@ -29,48 +29,48 @@ public class EnemyClass : SkillNode
 
     public override object GetValue(NodePort port)
     {
-        if (port.fieldName == "ClassName")
+        var skillGraph = graph as SkillGraph;
+        if (skillGraph == null || !Application.isPlaying)
         {
-            StringValue className = new();
-            // TODO: Implement runtime retrieval of enemy class name
-            return className;
+            // Return defaults in editor mode
+            return port.fieldName switch
+            {
+                "ClassName" => new StringValue { value = "Infantry" },
+                "IsInfantry" => new BoolValue { value = true },
+                "IsCavalry" => new BoolValue { value = false },
+                "IsFlying" => new BoolValue { value = false },
+                "IsArmored" => new BoolValue { value = false },
+                "IsDragon" => new BoolValue { value = false },
+                "IsBeast" => new BoolValue { value = false },
+                _ => null,
+            };
         }
-        else if (port.fieldName == "IsInfantry")
+
+        var context = GetContextFromGraph(skillGraph);
+        var enemy = ConditionHelpers.GetCharacterFromContext(
+            context,
+            ConditionHelpers.CharacterSource.Enemy
+        );
+
+        if (enemy == null)
         {
-            BoolValue isInfantry = new();
-            // TODO: Implement runtime check for infantry class
-            return isInfantry;
+            Debug.LogWarning("EnemyClass: Could not retrieve enemy from context");
+            return port.fieldName switch
+            {
+                "ClassName" => new StringValue { value = "" },
+                _ => new BoolValue { value = false },
+            };
         }
-        else if (port.fieldName == "IsCavalry")
+
+        // TODO: Implement class type retrieval when character class system is added
+        // Future implementation: var classData = enemy.GetClass();
+        // Then return classData.ClassName and check classData.ClassType enum
+        // Example: return new BoolValue { value = classData.ClassType == ClassType.Infantry };
+
+        return port.fieldName switch
         {
-            BoolValue isCavalry = new();
-            // TODO: Implement runtime check for cavalry class
-            return isCavalry;
-        }
-        else if (port.fieldName == "IsFlying")
-        {
-            BoolValue isFlying = new();
-            // TODO: Implement runtime check for flying class
-            return isFlying;
-        }
-        else if (port.fieldName == "IsArmored")
-        {
-            BoolValue isArmored = new();
-            // TODO: Implement runtime check for armored class
-            return isArmored;
-        }
-        else if (port.fieldName == "IsDragon")
-        {
-            BoolValue isDragon = new();
-            // TODO: Implement runtime check for dragon class
-            return isDragon;
-        }
-        else if (port.fieldName == "IsBeast")
-        {
-            BoolValue isBeast = new();
-            // TODO: Implement runtime check for beast class
-            return isBeast;
-        }
-        return null;
+            "ClassName" => new StringValue { value = "" },
+            _ => new BoolValue { value = false },
+        };
     }
 }

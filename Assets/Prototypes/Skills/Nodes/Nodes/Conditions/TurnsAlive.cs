@@ -14,19 +14,50 @@ public class TurnsAlive : SkillNode
 
     public override object GetValue(NodePort port)
     {
-        if (port.fieldName == "TurnCount")
+        var skillGraph = graph as SkillGraph;
+        if (skillGraph == null || !Application.isPlaying)
         {
-            FloatValue turnCount = new();
-            // TODO: Implement runtime retrieval of turns alive count
-            // This should track how many turns the unit has been on the battlefield
-            return turnCount;
+            // Return defaults in editor mode
+            return port.fieldName switch
+            {
+                "TurnCount" => new FloatValue { value = 1f },
+                "FirstTurn" => new BoolValue { value = true },
+                _ => null,
+            };
         }
-        else if (port.fieldName == "FirstTurn")
+
+        var context = GetContextFromGraph(skillGraph);
+        var character = ConditionHelpers.GetCharacterFromContext(
+            context,
+            ConditionHelpers.CharacterSource.Unit
+        );
+
+        if (character == null)
         {
-            BoolValue firstTurn = new();
-            // TODO: Implement runtime check if this is unit's first turn alive
-            return firstTurn;
+            Debug.LogWarning("TurnsAlive: Could not retrieve unit from context");
+            return port.fieldName switch
+            {
+                "TurnCount" => new FloatValue { value = 1f },
+                "FirstTurn" => new BoolValue { value = true },
+                _ => null,
+            };
         }
-        return null;
+
+        // TODO: Implement actual turns alive tracking when battle system is added
+        // Future implementation:
+        // int turnsAlive = character.TurnsAliveCount;
+        // return port.fieldName switch
+        // {
+        //     "TurnCount" => new FloatValue { value = turnsAlive },
+        //     "FirstTurn" => new BoolValue { value = turnsAlive == 1 },
+        //     _ => null,
+        // };
+
+        return port.fieldName switch
+        {
+            "TurnCount" => new FloatValue { value = 1f },
+            "FirstTurn" => new BoolValue { value = true },
+            _ => null,
+        };
     }
 }
