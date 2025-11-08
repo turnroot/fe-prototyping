@@ -96,7 +96,7 @@ public class GameplayGeneralSettings : SingletonScriptableObject<GameplayGeneral
     private bool Authority;
 
     [SerializeField, BoxGroup("Items"), HorizontalLine(color: EColor.Violet)]
-    private int MaxEquippedNonWeaponItems = 2;
+    private readonly int MaxEquippedNonWeaponItems = 2;
 
     [SerializeField, BoxGroup("Items")]
     private bool EquippableOutfits;
