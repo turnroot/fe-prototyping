@@ -31,7 +31,7 @@ namespace Assets.Prototypes.Skills.Nodes
         public List<Skill> ActiveSkills { get; set; }
         public List<SkillGraph> ActiveSkillGraphs { get; set; }
 
-        public Dictionary<Skill, int> SkillUseCount { get; set; }
+        public float SkillUseCount { get; set; }
         public CharacterInstance UnitInstance { get; set; }
         public List<CharacterInstance> Targets { get; set; }
         public List<CharacterInstance> Allies { get; set; }
