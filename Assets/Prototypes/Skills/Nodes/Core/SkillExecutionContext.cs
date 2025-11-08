@@ -40,6 +40,7 @@ namespace Assets.Prototypes.Skills.Nodes
             AdjacentUnits = new Adjacency();
             ActiveSkills = new List<Skill>();
             ActiveSkillGraphs = new List<SkillGraph>();
+            SkillUseCount = new Dictionary<Skill, int>();
         }
 
         // Get a custom data value, or default if not found
