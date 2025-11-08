@@ -56,7 +56,7 @@ namespace Assets.Prototypes.Characters.Components
         }
 
         // Implicit conversion to string
-        public static implicit operator string(CharacterWhich which) => which._value;
+        public static implicit operator string(CharacterWhich which) => which?._value;
 
         public override string ToString() => _value;
     }
