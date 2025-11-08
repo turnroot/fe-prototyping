@@ -1,23 +1,11 @@
 using System.Collections.Generic;
 using Assets.Prototypes.Characters;
 using Assets.Prototypes.Gameplay.Combat.FundamentalComponents.Battles.Environment;
+using Assets.Prototypes.Skills.Nodes;
 using UnityEngine;
 
-namespace Assets.Prototypes.Skills.Nodes
+namespace Assets.Prototypes.Gameplay.Combat.FundamentalComponents.Battles
 {
-    public enum Direction
-    {
-        Center,
-        TopLeft,
-        TopCenter,
-        TopRight,
-        CenterLeft,
-        CenterRight,
-        BottomLeft,
-        BottomCenter,
-        BottomRight,
-    }
-
     /// <summary>
     /// Runtime context for the entire battle.
     /// Contains all the dynamic data that skills and other systems need at runtime.
@@ -35,7 +23,7 @@ namespace Assets.Prototypes.Skills.Nodes
         public CharacterInstance UnitInstance { get; set; }
         public List<CharacterInstance> Targets { get; set; }
         public List<CharacterInstance> Allies { get; set; }
-        public Dictionary<Direction, CharacterInstance> AdjacentUnits { get; set; }
+        public Adjacency AdjacentUnits { get; set; }
 
         // Currently executing skill graph (if any)
         public SkillGraph CurrentSkillGraph { get; set; }
@@ -50,7 +38,7 @@ namespace Assets.Prototypes.Skills.Nodes
             CustomData = new Dictionary<string, object>();
             Targets = new List<CharacterInstance>();
             Allies = new List<CharacterInstance>();
-            AdjacentUnits = new Dictionary<Direction, CharacterInstance>();
+            AdjacentUnits = new Adjacency();
             ActiveSkills = new List<Skill>();
             ActiveSkillGraphs = new List<SkillGraph>();
         }
