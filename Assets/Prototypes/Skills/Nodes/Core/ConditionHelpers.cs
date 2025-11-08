@@ -205,7 +205,7 @@ namespace Assets.Prototypes.Skills.Nodes
             var character = GetCharacterFromContext(context, source);
             var stat = GetStatFromCharacter(character, statName, isBoundedStat);
 
-            return stat != null && stat.Bonus != 0;
+            return stat != null && Mathf.Abs(stat.Bonus) > 1e-6f;
         }
     }
 }
