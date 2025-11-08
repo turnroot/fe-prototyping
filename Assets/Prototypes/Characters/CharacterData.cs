@@ -42,7 +42,7 @@ namespace Assets.Prototypes.Characters
 
         [Foldout("Identity"), SerializeField]
         [HorizontalLine(color: EColor.Blue)]
-        private CharacterWhich _which = new("Enemy");
+        private readonly CharacterWhich _which = new("Enemy");
 
         [Foldout("Identity"), SerializeField]
         private string _name = "New Unit";
