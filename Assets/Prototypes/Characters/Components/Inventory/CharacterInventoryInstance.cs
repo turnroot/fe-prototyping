@@ -32,6 +32,10 @@ public class CharacterInventoryInstance
     [SerializeField]
     private bool[] _nonWeaponEquippedFlags;
 
+    // Cached settings value to avoid repeated singleton lookups
+    private int _cachedMaxNonWeaponSlots = -1;
+    private bool _isInitialized = false;
+
     public List<ObjectItem> InventoryItems => _inventoryItems;
     public int Capacity => _capacity;
     public int CurrentItemCount => _inventoryItems.Count;
@@ -56,17 +60,46 @@ public class CharacterInventoryInstance
 
     /// <summary>
     /// Gets the maximum number of non-weapon items that can be equipped from settings.
+    /// Cached to avoid repeated singleton lookups.
     /// </summary>
-    private int MaxNonWeaponSlots =>
-        GameplayGeneralSettings.Instance.GetMaxEquippedNonWeaponItems();
+    private int MaxNonWeaponSlots
+    {
+        get
+        {
+            // Get current value from settings
+            int currentValue = GameplayGeneralSettings.Instance.GetMaxEquippedNonWeaponItems();
+            
+            // If cached value changed, invalidate initialization
+            if (_cachedMaxNonWeaponSlots != currentValue)
+            {
+                _cachedMaxNonWeaponSlots = currentValue;
+                _isInitialized = false;
+            }
+            
+            return _cachedMaxNonWeaponSlots;
+        }
+    }
 
     /// <summary>
     /// Ensures equipment arrays are properly sized based on current settings.
+    /// Uses caching and a flag to avoid redundant reallocations.
     /// </summary>
     private void EnsureEquipmentArraysInitialized()
     {
-        int totalSlots = 1 + MaxNonWeaponSlots; // 1 weapon slot + N non-weapon slots
+        int maxNonWeapon = MaxNonWeaponSlots; // Cache the value for this method call
+        int totalSlots = 1 + maxNonWeapon; // 1 weapon slot + N non-weapon slots
 
+        // Check if we need to initialize/resize
+        bool needsResize = !_isInitialized
+            || _equippedItemIndices == null
+            || _equippedItemIndices.Length != totalSlots
+            || _nonWeaponEquippedFlags == null
+            || _nonWeaponEquippedFlags.Length != maxNonWeapon;
+
+        if (!needsResize)
+            return;
+
+        // Resize equipped item indices
         if (_equippedItemIndices == null || _equippedItemIndices.Length != totalSlots)
         {
             var oldIndices = _equippedItemIndices;
@@ -78,10 +111,10 @@ public class CharacterInventoryInstance
             }
         }
 
-        if (_nonWeaponEquippedFlags == null || _nonWeaponEquippedFlags.Length != MaxNonWeaponSlots)
+        if (_nonWeaponEquippedFlags == null || _nonWeaponEquippedFlags.Length != maxNonWeapon)
         {
             var oldFlags = _nonWeaponEquippedFlags;
-            _nonWeaponEquippedFlags = new bool[MaxNonWeaponSlots];
+            _nonWeaponEquippedFlags = new bool[maxNonWeapon];
             if (oldFlags != null)
             {
                 for (
@@ -94,6 +127,8 @@ public class CharacterInventoryInstance
                 }
             }
         }
+
+        _isInitialized = true;
     }
 
     public bool IsShieldEquipped => GetNonWeaponSlotEquipped(0);
@@ -173,6 +208,11 @@ public class CharacterInventoryInstance
         }
     }
 
+    /// <summary>
+    /// Gets the inventory index of an equipped item by its equipable type.
+    /// </summary>
+    /// <param name="itemType">The equipable type to search for.</param>
+    /// <returns>The inventory index of the equipped item, or -1 if not found.</returns>
     public int GetEquippedItemIndex(EquipableObjectType itemType)
     {
         // For equipable types, find first item matching that type
@@ -188,6 +228,39 @@ public class CharacterInventoryInstance
             }
         }
         return -1;
+    }
+
+    /// <summary>
+    /// Gets the inventory index of an equipped weapon.
+    /// </summary>
+    /// <returns>The inventory index of the equipped weapon, or -1 if no weapon is equipped.</returns>
+    public int GetEquippedWeaponIndex()
+    {
+        if (!_isWeaponEquipped || _equippedItemIndices == null || _equippedItemIndices.Length == 0)
+            return -1;
+
+        return _equippedItemIndices[0];
+    }
+
+    /// <summary>
+    /// Gets the inventory index of an equipped item by subtype (weapon, equipable, etc).
+    /// For weapons, returns the equipped weapon index. For equipables, searches by equipable type.
+    /// </summary>
+    /// <param name="subtype">The subtype to search for.</param>
+    /// <param name="equipableType">The equipable type (only used if subtype is Equipable).</param>
+    /// <returns>The inventory index of the equipped item, or -1 if not found.</returns>
+    public int GetEquippedItemIndex(ObjectSubtype subtype, EquipableObjectType equipableType = default)
+    {
+        if (subtype == ObjectSubtype.Weapon)
+        {
+            return GetEquippedWeaponIndex();
+        }
+        else if (subtype == ObjectSubtype.Equipable)
+        {
+            return GetEquippedItemIndex(equipableType);
+        }
+
+        return -1; // Other subtypes (Consumable, Gift, etc.) cannot be equipped
     }
 
     public bool IsItemEquipped(ObjectItem item)
